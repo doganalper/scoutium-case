@@ -25,7 +25,7 @@ export default {
     }
   },
   created(){
-    const API_URL = 'https://api.scoutium.com/api/clubs/4029/players?count=100'
+    const API_URL = 'https://api.scoutium.com/api/clubs/4029/players?count=50'
     axios.get(API_URL)
       .then(result => {
         return result.data.players
@@ -37,11 +37,11 @@ export default {
               name:player['display_name'],
               photo: player['image_url'],
               // API'dan gelen bazı verilerde position değeri olmadığı için null olarak ayarlamak zorunda kaldım position değerlerini.
-              position: typeof (player.position) !== 'undefined' ? player.position.name : 'null'
+              position: typeof (player.position) !== 'undefined' ? player.position.name : 'null',
+              selected: false
             }
           )
         })
-        console.log(this.players)
       })
       .catch(err=> console.error(err))
   }

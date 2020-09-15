@@ -4,13 +4,29 @@
       <div id="teamLogo"></div>
       <span>Beşiktaş JK</span>
     </div>
-    <button>Confirm</button>
+    <button :class="isLineupFull === true ? 'open' : 'closed'">Confirm</button>
   </div>
 </template>
 
 <script>
+import {eventBus} from "../main";
+
 export default {
-  name: "pickingTop"
+  name: "pickingTop",
+  data(){
+    return{
+      isLineupFull: false
+    }
+  },
+  mounted() {
+    eventBus.$on('lineupFull',(val)=>{
+      if(val){
+        this.isLineupFull = val
+      }else{
+        this.isLineupFull = val
+      }
+    })
+  }
 }
 </script>
 
@@ -18,11 +34,16 @@ export default {
   button{
     width: 20%;
     height: 40px;
-    background-color: #9699BE;
     border: none;
     border-radius: 10px;
     color: white;
     font-size: 18px;
+  }
+  .closed{
+    background-color: #9699BE;
+  }
+  .open{
+    background-color: #3852FF;
   }
   .flexRow{
     display: flex;

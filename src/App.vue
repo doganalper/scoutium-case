@@ -6,25 +6,24 @@
 </template>
 
 <script>
-import appHeader from './public/header'
-import axios from 'axios'
+import appHeader from "./public/header";
+import axios from "axios";
 export default {
-  name: 'app',
-  data(){
-    return{
-    }
+  name: "app",
+  data() {
+    return {};
   },
-  components:{
-    appHeader
-  }
-}
+  components: {
+    appHeader,
+  },
+};
 </script>
 
 <style>
-body{
+body {
   margin: 0;
-  background-color: #E9EAEB;
+  background-color: #e9eaeb;
 }
-#app{
+#app {
 }
 </style>

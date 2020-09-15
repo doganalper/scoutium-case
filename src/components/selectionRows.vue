@@ -1,11 +1,19 @@
 <template>
   <div id="selectionRows">
     <div id="header"> {{header}} </div>
-    <div id="players" v-if="playerList != null">
+    <div class="box" v-if="playerList != null">
       <player-card v-for="playerInfo in playerList" :player="playerInfo"></player-card>
     </div>
-    <div v-else-if="header==='Lineup'" class="empty">
-      <span>You haven't selected any player for lineup yet.</span>
+    <div
+      class="box"
+      v-else-if="header==='Lineup'"
+      :class="selectedPlayerList.length === 0 ? 'empty': 'notEmpty'">
+        <span v-if="selectedPlayerList.length === 0">You haven't selected any player for lineup yet.</span>
+        <player-card
+          v-for="selectedPlayer in selectedPlayerList"
+          :key="selectedPlayer.key"
+          :player="selectedPlayer">
+        </player-card>
     </div>
     <div v-else-if="header==='Substitutes'" class="empty">
       <span>Please pick 11 players for lineup before creating any substitutes</span>
@@ -15,6 +23,8 @@
 
 <script>
 import playerCard from "./playerCard";
+import {eventBus} from "../main";
+import header from "../public/header";
 export default {
   name: "selectionRows",
   props: ['playerList','header'],
@@ -23,16 +33,37 @@ export default {
   },
   data(){
     return{
-
+      selectedPlayerList: [],
+      selectedCount: 0
     }
   },
+  mounted() {
+    if(this.header==='Lineup'){
+      eventBus.$on('selected',(payload)=>{
+        if(this.selectedCount < 11){
+          this.selectedPlayerList.push(payload)
+          payload.selected = true
+          this.selectedCount++;
+          console.log(this.selectedCount)
+        }else{
+          alert('AAAA')
+        }
+      })
+      eventBus.$on('deselected',(payload)=>{
+        let index = this.selectedPlayerList.findIndex(player => player.id === payload.id)
+        this.selectedPlayerList.splice(index,1)
+        payload.selected = false
+        this.selectedCount--;
+        console.log(this.selectedCount)
+      })
+    }
+  }
 }
 </script>
 
 <style scoped>
   #selectionRows{
     margin-top: 10px;
-    box-shadow: ;
     width: 32.5%;
     padding: 15px;
     box-sizing: border-box;
@@ -43,10 +74,6 @@ export default {
     font-size: 18px;
     margin-bottom: 5px;
   }
-  #players{
-    height: 535px;
-    overflow-y: scroll;
-  }
   .empty{
     display: flex;
     height: 535px;
@@ -55,5 +82,9 @@ export default {
     justify-content: center;
     align-items: center;
     text-align: center;
+  }
+  .box{
+    height: 535px;
+    overflow-y: scroll;
   }
 </style>
