@@ -1,6 +1,6 @@
 # scoutium-case
 
-> VueJs Soutcoutium Case
+> VueJs Scoutium Case
 
 ## Build Setup
 
