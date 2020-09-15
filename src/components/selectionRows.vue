@@ -46,7 +46,7 @@ export default {
           this.selectedCount++;
           console.log(this.selectedCount)
         }else{
-          alert('AAAA')
+          alert("You can't pick more than 11 players to lineup!")
         }
       })
       eventBus.$on('deselected',(payload)=>{
@@ -55,7 +55,15 @@ export default {
         payload.selected = false
         this.selectedCount--;
         console.log(this.selectedCount)
+        eventBus.$emit('lineupFull',false)
       })
+    }
+  },
+  watch:{
+    selectedCount(val){
+      if(val === 11){
+        eventBus.$emit('lineupFull',true)
+      }
     }
   }
 }
@@ -67,7 +75,7 @@ export default {
     width: 32.5%;
     padding: 15px;
     box-sizing: border-box;
-    height: 600px;
+    height: 700px;
     box-shadow: 0px 9px 18px -3px rgba(0,0,0,0.22);
   }
   #header{
@@ -76,7 +84,7 @@ export default {
   }
   .empty{
     display: flex;
-    height: 535px;
+    height: 635px;
     font-size: 15px;
     color: #9699BE;
     justify-content: center;
@@ -84,7 +92,7 @@ export default {
     text-align: center;
   }
   .box{
-    height: 535px;
-    overflow-y: scroll;
+    height: 635px;
+    overflow-y: auto;
   }
 </style>

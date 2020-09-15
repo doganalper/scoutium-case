@@ -41,9 +41,11 @@ export default {
   }
   .closed{
     background-color: #9699BE;
+    pointer-events: none;
   }
   .open{
     background-color: #3852FF;
+    cursor: pointer;
   }
   .flexRow{
     display: flex;

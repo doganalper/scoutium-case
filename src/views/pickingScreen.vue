@@ -51,7 +51,7 @@ export default {
 <style scoped>
   #pickingScreen{
     margin: 1.5% 18% 0 18%;
-    height: 700px;
+    height: 800px;
     border-radius: 15px;
     background-color: #FFFFFF;
     display: flex;
