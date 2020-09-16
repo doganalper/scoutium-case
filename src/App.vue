@@ -14,15 +14,15 @@ export default {
     return {};
   },
   components: {
-    appHeader,
-  },
+    appHeader
+  }
 };
 </script>
 
 <style>
 body {
   margin: 0;
-  background-color: #e9eaeb;
+  background-color: #e9eaeb !important;
 }
 #app {
 }

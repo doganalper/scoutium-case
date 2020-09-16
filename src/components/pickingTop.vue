@@ -9,61 +9,61 @@
 </template>
 
 <script>
-import {eventBus} from "../main";
+import { eventBus } from "../main";
 
 export default {
   name: "pickingTop",
-  data(){
-    return{
+  data() {
+    return {
       isLineupFull: false
-    }
+    };
   },
   mounted() {
-    eventBus.$on('lineupFull',(val)=>{
-      if(val){
-        this.isLineupFull = val
-      }else{
-        this.isLineupFull = val
+    eventBus.$on("lineupFull", val => {
+      if (val) {
+        this.isLineupFull = val;
+      } else {
+        this.isLineupFull = val;
       }
-    })
+    });
   }
-}
+};
 </script>
 
 <style scoped>
-  button{
-    width: 20%;
-    height: 40px;
-    border: none;
-    border-radius: 10px;
-    color: white;
-    font-size: 18px;
-  }
-  .closed{
-    background-color: #9699BE;
-    pointer-events: none;
-  }
-  .open{
-    background-color: #3852FF;
-    cursor: pointer;
-  }
-  .flexRow{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-  }
-  #pickingTop{
-    justify-content: space-between;
-  }
-  #teamLogo{
-    width: 40px;
-    height: 40px;
-    background-color: black;
-    border-radius: 50%;
-  }
-  #teamInfo{
-    width: 13.5%;
-    justify-content: space-between;
-    font-size: 20px;
-  }
+button {
+  width: 20%;
+  height: 40px;
+  border: none;
+  border-radius: 10px;
+  color: white;
+  font-size: 18px;
+}
+.closed {
+  background-color: #9699be;
+  pointer-events: none;
+}
+.open {
+  background-color: #3852ff;
+  cursor: pointer;
+}
+.flexRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+#pickingTop {
+  justify-content: space-between;
+}
+#teamLogo {
+  width: 40px;
+  height: 40px;
+  background-color: black;
+  border-radius: 50%;
+}
+#teamInfo {
+  width: 13.5%;
+  justify-content: space-between;
+  font-size: 20px;
+}
 </style>
