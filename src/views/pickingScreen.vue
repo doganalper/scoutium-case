@@ -2,25 +2,26 @@
   <div id="pickingScreen">
     <picking-top></picking-top>
     <div id="pickingBottom">
-      <selection-row
-        :playerList="players"
-        :header="'All Players'"
-      ></selection-row>
-      <selection-row :playerList="players" :header="'Lineup'"></selection-row>
-      <selection-row :header="'Substitutes'"></selection-row>
+      <all-players :playerList="players" :header="'All Players'"></all-players>
+      <line-up :header="'Lineup'" :playerList="players"></line-up>
+      <substitutes :header="'Substitutes'"></substitutes>
     </div>
   </div>
 </template>
 
 <script>
 import pickingTop from "../components/pickingTop";
-import selectionRow from "../components/selectionRows";
+import allPlayers from "../components/allPlayers";
+import lineUp from '../components/lineup'
+import substitutes from "../components/substitutes";
 import axios from "axios";
 export default {
   name: "Home",
   components: {
     pickingTop,
-    selectionRow
+    allPlayers,
+    lineUp,
+    substitutes
   },
   data() {
     return {

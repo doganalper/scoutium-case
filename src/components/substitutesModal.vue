@@ -4,27 +4,13 @@
     <div id="form">
       <label for="outPlayer">OUT PLAYER</label>
       <select v-model="selectedOutPlayer" class="form-control">
-        <option value="" disabled selected> Enter Player Name </option>
-        <option
-          :value="outPlayer"
-          :key="outPlayer.id"
-          v-for="outPlayer in selectedPlayers"
-        >
-          {{ outPlayer.name }}
-        </option>
+        <option v-for="selectedPlayer in selectedPlayers" :value="selectedPlayer"> {{ selectedPlayer.name }} </option>
       </select>
       <label for="inPlayer">IN PLAYER</label>
       <select v-model="selectedInPlayer" class="form-control">
-        <option value="" disabled selected> Enter Player Name </option>
-        <option
-          :value="inPlayer"
-          :key="inPlayer.id"
-          v-for="inPlayer in notSelectedPlayers"
-        >
-          {{ inPlayer.name }}
-        </option>
+        <option v-for="player in notSelectedPlayers" :value="player">{{ player.name }}</option>
       </select>
-      <label for="subMinute">SUBSTITION MINUTE</label>
+      <label for="subMinute">SUBSTITUTION MINUTE</label>
       <input type="text" v-model="subMinute" class="form-control" />
       <div id="buttons">
         <button id="cancel" @click="cancel">Cancel</button>
@@ -47,15 +33,19 @@ export default {
   },
   methods: {
     add() {
-      if(this.subMinute > 0 && this.subMinute <= 90) {
-        eventBus.$emit('substituteEmit', {
-          playerOut: this.selectedOutPlayer,
+      if(this.subMinute > 0 && this.subMinute <= 90 || this.selectedOutPlayer !== null || this.selectedInPlayer !== null) {
+        eventBus.$emit('substituteIn', {
           playerIn: this.selectedInPlayer,
           changeTime: this.subMinute
         })
+        eventBus.$emit('substituteOut', {
+          playerOut: this.selectedOutPlayer,
+          changeTime: this.subMinute
+        })
+        eventBus.$emit('subsCountIncrease', true)
         this.$emit('close')
       }else{
-        alert("Please write a minute between 0 and 90!")
+        alert("Please choose carefully!")
       }
     },
     cancel() {
