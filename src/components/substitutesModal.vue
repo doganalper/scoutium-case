@@ -46,8 +46,21 @@ export default {
     };
   },
   methods: {
-    add() {},
-    cancel() {}
+    add() {
+      if(this.subMinute > 0 && this.subMinute <= 90) {
+        eventBus.$emit('substituteEmit', {
+          playerOut: this.selectedOutPlayer,
+          playerIn: this.selectedInPlayer,
+          changeTime: this.subMinute
+        })
+        this.$emit('close')
+      }else{
+        alert("Please write a minute between 0 and 90!")
+      }
+    },
+    cancel() {
+      this.$emit('close')
+    }
   }
 };
 </script>

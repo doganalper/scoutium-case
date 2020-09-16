@@ -2,16 +2,38 @@
   <div id="playerCard" class="flexRow">
     <div id="playerInfos" class="flexRow">
       <div id="playerPhoto">
-        <img :src="player.photo" alt="" />
+        <img :src="player.photo" alt="" v-if="state === 'allPlayers'"/>
+        <img :src="player.photo" alt="" v-else-if="state === 'lineup'"/>
+        <img :src="info.playerIn.photo" alt="" v-else-if="state === 'change'"/>
       </div>
       <div id="namePosition">
-        <div id="playerName">{{ player.name }}</div>
-        <div id="playerPosition">{{ player.position }}</div>
+        <div v-if="state === 'allPlayers'">
+          <div class="playerName">{{ player.name }}</div>
+          <div class="playerPosition">{{ player.position }}</div>
+        </div>
+        <div v-if="state === 'lineup'">
+          <div class="playerName">{{ player.name }}</div>
+          <div class="playerPosition">{{ player.position }}</div>
+        </div>
+        <div v-if="state === 'change'">
+          <div class="playerName">{{ info.playerIn.name }}</div>
+          <div class="playerPosition">{{ info.playerIn.position }}</div>
+        </div>
       </div>
     </div>
-    <div :class=" !player.selected ? 'pickBtn' : 'unPickBtn'">
+    <div :class=" !player.selected ? 'pickBtn' : 'unPickBtn'" v-if="state === 'allPlayers'">
       <span v-if="!player.selected" @click="pick" >Pick</span>
       <span v-else @click="unpick">Unpick</span>
+    </div>
+    <div v-else-if="state === 'lineup'" >
+      <span v-if="outPlayerInfo !== null">
+        <span style="color: red" v-if="outPlayerInfo.id == player.id">
+          {{ this.changeTime }}
+        </span>
+      </span>
+    </div>
+    <div v-else-if="state==='change'" style="color: green">
+      {{ info.changeTime }}
     </div>
   </div>
 </template>
@@ -20,9 +42,11 @@
 import {eventBus} from "../main";
 export default {
   name: "playerCard",
-  props: ["player"],
+  props: ["player",'state','info'],
   data() {
     return {
+      outPlayerInfo: null,
+      changeTime: null
     }
   },
   methods: {
@@ -33,6 +57,12 @@ export default {
       eventBus.$emit('deselected',this.player)
     }
   },
+  mounted(){
+    eventBus.$on('outPlayerInfo',(payload)=>{
+      this.outPlayerInfo = payload[0]
+      this.changeTime = payload[1]
+    })
+  }
 }
 </script>
 
@@ -45,7 +75,7 @@ export default {
   color: #E63846;
   cursor: pointer;
 }
-#playerPosition {
+.playerPosition {
   font-size: 14px;
   color: #9699be;
 }

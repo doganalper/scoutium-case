@@ -2,31 +2,15 @@
   <div id="selectionRows">
     <div id="header">{{ header }}</div>
     <div class="box" v-if="playerList != null && header === 'All Players'">
-      <player-card
-        v-for="playerInfo in playerList"
-        :player="playerInfo"
-        :key="playerInfo.id"
-      ></player-card>
+      <player-card v-for="playerInfo in playerList" :player="playerInfo" :key="playerInfo.id" :state="'allPlayers'"></player-card>
     </div>
-    <div
-      class="box"
-      v-else-if="header === 'Lineup'"
-      :class="selectedPlayerList.length === 0 ? 'empty' : 'notEmpty'"
-    >
-      <span v-if="selectedPlayerList.length === 0"
-        >You haven't selected any player for lineup yet.</span
-      >
-      <player-card
-        v-for="selectedPlayer in selectedPlayerList"
-        :key="selectedPlayer.key"
-        :player="selectedPlayer"
-      >
-      </player-card>
+    <div class="box" v-else-if="header === 'Lineup'" :class="selectedPlayerList.length === 0 ? 'empty' : 'notEmpty'">
+      <span v-if="selectedPlayerList.length === 0">You haven't selected any player for lineup yet.</span>
+      <player-card v-for="selectedPlayer in selectedPlayerList" :key="selectedPlayer.key" :player="selectedPlayer" :state="'lineup'"></player-card>
     </div>
     <div v-else-if="header === 'Substitutes'" class="empty">
-      <span
-        >Please pick 11 players for lineup before creating any substitutes</span
-      >
+      <span v-if="changeList.length === 0">Please pick 11 players for lineup before creating any substitutes</span>
+      <player-card v-else v-for="changeInfo in changeList" :info="changeInfo" :state="'change'"></player-card>
     </div>
   </div>
 </template>
@@ -45,7 +29,8 @@ export default {
   data() {
     return {
       selectedPlayerList: [],
-      selectedCount: 0
+      selectedCount: 0,
+      changeList: [],
     };
   },
   mounted() {
@@ -79,6 +64,13 @@ export default {
         console.log(this.selectedCount);
         eventBus.$emit("lineupFull", false);
       });
+    }
+    if (this.header === 'Substitutes'){
+      eventBus.$on('substituteEmit',(payload)=>{
+        console.log(payload)
+        this.changeList.push(payload)
+        eventBus.$emit('outPlayerInfo',[payload.playerOut,payload.changeTime])
+      })
     }
   },
   watch: {
