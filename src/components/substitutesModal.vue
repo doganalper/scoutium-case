@@ -6,7 +6,7 @@
       <select v-model="selectedOutPlayer" class="form-control">
         <option value="" disabled selected> Enter Player Name </option>
         <option
-          :value="outPlayer.id"
+          :value="outPlayer"
           :key="outPlayer.id"
           v-for="outPlayer in selectedPlayers"
         >
@@ -17,7 +17,7 @@
       <select v-model="selectedInPlayer" class="form-control">
         <option value="" disabled selected> Enter Player Name </option>
         <option
-          :value="inPlayer.id"
+          :value="inPlayer"
           :key="inPlayer.id"
           v-for="inPlayer in notSelectedPlayers"
         >
