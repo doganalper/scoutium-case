@@ -4,7 +4,10 @@
     <div id="form">
       <label for="outPlayer">OUT PLAYER</label>
       <select v-model="selectedOutPlayer" class="form-control">
-        <option v-for="selectedPlayer in selectedPlayers" :value="selectedPlayer"> {{ selectedPlayer.name }} </option>
+        <option
+          v-for="selectedPlayer in selectedPlayers"
+          :value="selectedPlayer"
+        >{{ selectedPlayer.name }}</option>
       </select>
       <label for="inPlayer">IN PLAYER</label>
       <select v-model="selectedInPlayer" class="form-control">
@@ -21,37 +24,42 @@
 </template>
 
 <script>
-import { eventBus } from "../main";
+import { eventBus } from "../../main";
 export default {
   props: ["selectedPlayers", "notSelectedPlayers"],
   data() {
     return {
       selectedOutPlayer: null,
       selectedInPlayer: null,
-      subMinute: null
+      subMinute: null,
     };
   },
   methods: {
     add() {
-      if(this.subMinute > 0 && this.subMinute <= 90 || this.selectedOutPlayer !== null || this.selectedInPlayer !== null) {
-        eventBus.$emit('substituteIn', {
+      if (
+        (this.subMinute > 0 && this.subMinute <= 90) ||
+        this.selectedOutPlayer !== null ||
+        this.selectedInPlayer !== null
+      ) {
+        eventBus.$emit("substituteIn", {
           playerIn: this.selectedInPlayer,
-          changeTime: this.subMinute
-        })
-        eventBus.$emit('substituteOut', {
           playerOut: this.selectedOutPlayer,
-          changeTime: this.subMinute
-        })
-        eventBus.$emit('subsCountIncrease', true)
-        this.$emit('close')
-      }else{
-        alert("Please choose carefully!")
+          changeTime: this.subMinute,
+        });
+        eventBus.$emit("substituteOut", {
+          playerOut: this.selectedOutPlayer,
+          changeTime: this.subMinute,
+        });
+        eventBus.$emit("subsCountIncrease", true);
+        this.$emit("close");
+      } else {
+        alert("Please choose carefully!");
       }
     },
     cancel() {
-      this.$emit('close')
-    }
-  }
+      this.$emit("close");
+    },
+  },
 };
 </script>
 
@@ -90,5 +98,6 @@ button {
 #add {
   background-color: #9699be;
   border: none;
+  color: white;
 }
 </style>

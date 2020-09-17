@@ -1,6 +1,6 @@
 <template>
   <div id="header">
-    <div id="logo">SCOUTIUM</div>
+    <div id="logo" @click="$router.push('/')">SCOUTIUM</div>
     <div id="userPicture"></div>
   </div>
 </template>

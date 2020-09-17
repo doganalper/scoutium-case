@@ -12,7 +12,7 @@
 
 <script>
 import playerCard from "./playerCard";
-import { eventBus } from "../main";
+import { eventBus } from "../../main";
 import Modal from './substitutesModal'
 export default {
   name: "selectionRows",
@@ -33,7 +33,6 @@ export default {
         this.selectedPlayers.push(payload)
         payload.selected = true
       }else{
-        eventBus.$emit('lineupFull',true)
         if(this.subsCount < 3){
           this.$modal.show(
             Modal,
@@ -49,6 +48,9 @@ export default {
           alert("You can't pick more")
         }
       }
+     if(this.selectedPlayers.length===11) {
+       eventBus.$emit('lineupFull', true)
+     }
     })
     eventBus.$on('playerDeSelected',(payload)=>{
       let index = this.selectedPlayers.findIndex(i=> i.id === payload.id)
@@ -61,6 +63,9 @@ export default {
     })
     eventBus.$on('subsCountDecrease',()=>{
       this.subsCount--;
+    })
+    eventBus.$on('getLineup',()=>{
+      eventBus.$emit('sentLineup', this.selectedPlayers)
     })
   }
 };

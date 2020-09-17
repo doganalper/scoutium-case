@@ -9,8 +9,6 @@
 
 <script>
 import playerCard from "./playerCard";
-import { eventBus } from "../main";
-import Modal from "./substitutesModal";
 export default {
   name: "selectionRows",
   props: ["playerList"],

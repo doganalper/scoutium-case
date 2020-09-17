@@ -10,10 +10,10 @@
 </template>
 
 <script>
-import pickingTop from "../components/pickingTop";
-import allPlayers from "../components/allPlayers";
-import lineUp from '../components/lineup'
-import substitutes from "../components/substitutes";
+import pickingTop from "../components/pickingScreenComps/pickingTop";
+import allPlayers from "../components/pickingScreenComps/allPlayers";
+import lineUp from "../components/pickingScreenComps/lineup";
+import substitutes from "../components/pickingScreenComps/substitutes";
 import axios from "axios";
 export default {
   name: "Home",
@@ -21,22 +21,22 @@ export default {
     pickingTop,
     allPlayers,
     lineUp,
-    substitutes
+    substitutes,
   },
   data() {
     return {
-      players: []
+      players: [],
     };
   },
   created() {
-    const API_URL = "https://api.scoutium.com/api/clubs/4029/players?count=50";
+    const API_URL = "https://api.scoutium.com/api/clubs/4029/players?count=100";
     axios
       .get(API_URL)
-      .then(result => {
+      .then((result) => {
         return result.data.players;
       })
-      .then(players => {
-        players.map(player => {
+      .then((players) => {
+        players.map((player) => {
           this.players.push({
             id: player.id,
             name: player["display_name"],
@@ -46,12 +46,12 @@ export default {
               typeof player.position !== "undefined"
                 ? player.position.name
                 : "null",
-            selected: false
+            selected: false,
           });
         });
       })
-      .catch(err => console.error(err));
-  }
+      .catch((err) => console.error(err));
+  },
 };
 </script>
 

@@ -4,19 +4,30 @@
       <div id="teamLogo"></div>
       <span>Beşiktaş JK</span>
     </div>
-    <button :class="isLineupFull === true ? 'open' : 'closed'">Confirm</button>
+    <button :class="isLineupFull === true ? 'open' : 'closed'" @click="goToConfirmation">Confirm</button>
   </div>
 </template>
 
 <script>
-import { eventBus } from "../main";
+import { eventBus } from "../../main";
 
 export default {
   name: "pickingTop",
   data() {
     return {
-      isLineupFull: false
+      isLineupFull: false,
+      lineup: null,
+      substitutes: null
     };
+  },
+  methods:{
+    goToConfirmation(){
+      eventBus.$emit('getLineup',true)
+      eventBus.$emit('getSubstitutes',true)
+      this.$router.push({name:'confirmation',params:{
+        lineup: this.lineup, substitutes: this.substitutes
+        }})
+    }
   },
   mounted() {
     eventBus.$on("lineupFull", val => {
@@ -26,6 +37,12 @@ export default {
         this.isLineupFull = val;
       }
     });
+    eventBus.$on('sentLineup',(payload)=>{
+      this.lineup = payload
+    })
+    eventBus.$on('sentSubstitutes',(payload)=>{
+      this.substitutes = payload
+    })
   }
 };
 </script>

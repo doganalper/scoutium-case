@@ -12,7 +12,7 @@
 
 <script>
 import playerCard from "./playerCard";
-import { eventBus } from "../main";
+import { eventBus } from "../../main";
 export default {
   name: "selectionRows",
   components: {
@@ -30,6 +30,9 @@ export default {
     eventBus.$on('deleteSub',(payload)=>{
       let index = this.substitutes.findIndex(i=> i.playerIn.id === payload.id)
       this.substitutes.splice(index,1)
+    })
+    eventBus.$on('getSubstitutes',()=>{
+      eventBus.$emit('sentSubstitutes',this.substitutes)
     })
   }
 };
