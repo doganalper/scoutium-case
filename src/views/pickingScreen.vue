@@ -29,7 +29,7 @@ export default {
     };
   },
   created() {
-    const API_URL = "https://api.scoutium.com/api/clubs/4029/players?count=100";
+    const API_URL = "API_KEY";
     axios
       .get(API_URL)
       .then((result) => {
